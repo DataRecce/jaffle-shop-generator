@@ -95,7 +95,6 @@ class Simulation(object):
     def run_simulation(self):
 
         for i in tqdm(range(self.sim_days), desc="[SIM]"):
-
             for market in self.markets:
                 day = Day(i)
                 for order in (o for o in market.sim_day(day) if o is not None):
@@ -108,6 +107,9 @@ class Simulation(object):
             customer.to_dict() for customer in self.customers.values()
         )
         df_orders = pd.DataFrame.from_dict(order.to_dict() for order in self.orders)
+        df_payments= pd.DataFrame.from_dict(
+            payment.to_dict() for order in self.orders for payment in order.payments
+        )
         df_items = pd.DataFrame.from_dict(
             item.to_dict() for order in self.orders for item in order.items
         )
@@ -125,26 +127,29 @@ class Simulation(object):
             header=df_customers.columns.to_list(),
             index=False,
         )
-        df_items.to_csv(
-            f"./jaffle-data/{self.prefix}_items.csv", header=df_items.columns.to_list(), index=False
-        )
+        # df_items.to_csv(
+        #     f"./jaffle-data/{self.prefix}_items.csv", header=df_items.columns.to_list(), index=False
+        # )
         df_orders.to_csv(
             f"./jaffle-data/{self.prefix}_orders.csv",
             header=df_orders.columns.to_list(),
             index=False,
         )
-        df_products.to_csv(
-            f"./jaffle-data/{self.prefix}_products.csv",
-            header=df_products.columns.to_list(),
-            index=False,
+        df_payments.to_csv(
+            f"./jaffle-data/{self.prefix}_payments.csv", header=df_payments.columns.to_list(), index=False
         )
-        df_stores.to_csv(
-            f"./jaffle-data/{self.prefix}_stores.csv",
-            header=df_stores.columns.to_list(),
-            index=False,
-        )
-        df_supplies.to_csv(
-            f"./jaffle-data/{self.prefix}_supplies.csv",
-            header=df_supplies.columns.to_list(),
-            index=False,
-        )
+        # df_products.to_csv(
+        #     f"./jaffle-data/{self.prefix}_products.csv",
+        #     header=df_products.columns.to_list(),
+        #     index=False,
+        # )
+        # df_stores.to_csv(
+        #     f"./jaffle-data/{self.prefix}_stores.csv",
+        #     header=df_stores.columns.to_list(),
+        #     index=False,
+        # )
+        # df_supplies.to_csv(
+        #     f"./jaffle-data/{self.prefix}_supplies.csv",
+        #     header=df_supplies.columns.to_list(),
+        #     index=False,
+        # )

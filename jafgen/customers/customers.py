@@ -12,11 +12,19 @@ Faker.seed(123456789)
 
 
 class Customer(object):
+    _id_counter = 1
     def __init__(self, store):
-        self.customer_id = str(uuid.uuid4())
+        self.customer_id = Customer._get_next_id()
         self.store = store
-        self.name = fake.name()
+        self.first_name = fake.first_name()
+        self.last_name = fake.last_name()
         self.favorite_number = int(np.random.rand() * 100)
+
+    @classmethod
+    def _get_next_id(cls):
+        current_id = cls._id_counter
+        cls._id_counter += 1
+        return current_id
 
     def p_buy_season(self, day):
         return self.store.p_buy(day)
@@ -58,7 +66,8 @@ class Customer(object):
     def to_dict(self):
         return {
             "id": self.customer_id,
-            "name": self.name,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
         }
 
 

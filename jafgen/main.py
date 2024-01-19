@@ -32,3 +32,7 @@ def main():
     sim = Simulation(args.years, args.prefix)
     sim.run_simulation()
     sim.save_results()
+
+
+if __name__ == "__main__":
+    main()
