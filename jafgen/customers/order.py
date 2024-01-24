@@ -28,7 +28,7 @@ class Order(object):
 
     @classmethod
     def _get_status(cls):
-        return random.choices(['completed', 'shipped', 'placed', 'returned', 'returned_pending'], weights=[67, 13, 13, 4, 2])[0]
+        return random.choices(['completed', 'shipped', 'placed', 'returned', 'return_pending'], weights=[67, 13, 13, 4, 2])[0]
 
     @classmethod
     def _get_payments(self, order_id):
